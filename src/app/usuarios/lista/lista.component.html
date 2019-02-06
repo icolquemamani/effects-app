@@ -1,5 +1,28 @@
-<div class="card-columns">
-    <div class="card" *ngFor="let user of $users | async ">
+<div class="row" *ngIf="(data$ | async)?.loading">
+  <div class="col">
+    <div class="alert alert-info text-center">
+      <i class="fa fa-refresh fa-spin fa-2x"></i>
+      <h1>Espere...</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="(data$ | async)?.error">
+    <div class="col">
+      <div class="alert alert-danger text-center">
+        <i class="fa fa-times fa-2x"></i>
+        <h2>Error: {{ (data$ | async)?.error.status }}</h2>
+        <p>
+            {{ (data$ | async)?.error.message }}
+            <br><br>
+            {{ (data$ | async)?.error.url }}
+        </p>
+      </div>
+    </div>
+</div>
+
+<div class="card-columns" *ngIf="!(data$ | async)?.loading">
+    <div class="card" *ngFor="let user of (data$ | async)?.users ">
       <img class="card-img-top" [src]="user.avatar" alt="User image">
       <div class="card-body">
         <h5 class="card-title">{{ user.first_name }}</h5>

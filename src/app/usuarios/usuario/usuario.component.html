@@ -1,3 +1,41 @@
-<p>
-  usuario works!
-</p>
+<div class="row" *ngIf="(data$ | async)?.loading">
+  <div class="col">
+    <div class="alert alert-info text-center">
+      <i class="fa fa-refresh fa-spin fa-2x"></i>
+      <h1>Espere...</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="(data$ | async)?.error">
+    <div class="col">
+      <div class="alert alert-danger text-center">
+        <i class="fa fa-times fa-2x"></i>
+        <h2>Error: {{ (data$ | async)?.error.status }}</h2>
+        <p>
+            {{ (data$ | async)?.error.message }}
+            <br><br>
+            {{ (data$ | async)?.error.url }}
+        </p>
+      </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="(data$ | async)?.user">
+  <div class="col-3">
+    <img [src]="(data$ | async)?.user.avatar" alt="user avatar" class="img-thumbnail">
+  </div>
+  <div class="col">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <strong>Identificador:</strong><br>
+        {{ (data$ | async)?.user.id }}
+      </li>
+      <li class="list-group-item">
+        <strong>Nombre:</strong><br>
+        {{ (data$ | async)?.user.first_name }}
+        {{ (data$ | async)?.user.last_name }}
+      </li>
+    </ul>
+  </div>
+</div>
